@@ -8,7 +8,7 @@ namespace TerraProc.Core.Generation;
 /// </summary>
 /// <param name="noiseFactory">A factory function to create a noise provider given a seed.</param>
 /// <param name="seed">The main seed for the terrain generation.</param>
-public class BasicTerrainGenerator(NoiseProviderFactory noiseFactory, int seed) : ITerrainGenerator
+public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, int seed) : ITerrainGenerator
 {
     private const ushort Scale = 10;
     private readonly INoiseProvider _noise = noiseFactory(seed);
