@@ -10,7 +10,7 @@ public static class ProviderFactory
         return
             new CoalescingChunkProvider(
                 new ConcurrentChunkProvider(
-                    new BasicTerrainGenerator(
+                    new NoiseTerrainGenerator(
                         s => new ValueNoise(s), seed),
                     maxThreads)
             );
