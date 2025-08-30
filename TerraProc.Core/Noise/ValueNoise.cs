@@ -1,5 +1,9 @@
 namespace TerraProc.Core.Noise;
 
+/// <summary>
+/// A simple value noise implementation that provides consistent pseudo-random values based on input coordinates and a seed.
+/// </summary>
+/// <param name="seed">The seed for the noise generation.</param>
 public class ValueNoise(int seed) : INoiseProvider
 {
     public double Sample(double x, double y)

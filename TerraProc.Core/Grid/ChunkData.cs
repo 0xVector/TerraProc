@@ -23,7 +23,7 @@ public readonly record struct Chunk(ChunkCoords Coords, ChunkData Data)
 /// <summary>
 /// Represents a chunk of the grid, containing heights and materials for each tile.
 /// </summary>
-public class ChunkData
+public sealed class ChunkData
 {
     private readonly Height[] _heights;
     private readonly Material[] _materials;
