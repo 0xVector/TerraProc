@@ -1,27 +1,39 @@
-using System.Net.NetworkInformation;
-
 namespace TerraProc.Core.Grid;
 
 using Height = ushort;
 
+/// <summary>
+/// Represents tile a material type.
+/// </summary>
 public enum Material
 {
     Void = 0,
 }
 
-public class Chunk
+/// <summary>
+/// Represents a chunk in the grid, containing its coordinates and data.
+/// </summary>
+/// <param name="Coords">The coordinates of the chunk.</param>
+/// <param name="Data">The data of the chunk.</param>
+public readonly record struct Chunk(ChunkCoords Coords, ChunkData Data)
+{
+    public override string ToString() => $"{nameof(Chunk)}({Coords}, {Data})";
+}
+
+/// <summary>
+/// Represents a chunk of the grid, containing heights and materials for each tile.
+/// </summary>
+public class ChunkData
 {
     private readonly Height[] _heights;
     private readonly Material[] _materials;
 
-    private Chunk(ChunkCoords coords, Height[] heights, Material[] materials)
+    private ChunkData(Height[] heights, Material[] materials)
     {
-        Coords = coords;
         _heights = heights;
         _materials = materials;
     }
 
-    public ChunkCoords Coords { get; }
     public ReadOnlySpan<Height> Heights => _heights;
     public ReadOnlyMemory<Height> HeightsMemory => _heights;
     public ReadOnlySpan<Material> Materials => _materials;
@@ -47,20 +59,22 @@ public class Chunk
     }
 
     /// <summary>
-    /// Get the height by the global tile coordinates.
+    /// Get the height by the <b>global</b> tile coordinates.
     /// </summary>
     /// <param name="coords">The global tile coordinates.</param>
     public Height this[TileCoords coords]
     {
         get
         {
-            ValidateTileCoords(coords);
-            return _heights[Linearize(coords.ToLocal())];
+            var (x, y) = coords.ToLocal().Unpack();
+            ValidateLocalCoords(x, y);
+            return _heights[Linearize(x, y)];
         }
         set
         {
-            ValidateTileCoords(coords);
-            _heights[Linearize(coords.ToLocal())] = value;
+            var (x, y) = coords.ToLocal().Unpack();
+            ValidateLocalCoords(x, y);
+            _heights[Linearize(x, y)] = value;
         }
     }
 
@@ -73,10 +87,10 @@ public class Chunk
     /// <param name="heights"></param>
     /// <param name="materials"></param>
     /// <returns>The created chunk.</returns>
-    public static Chunk FromOwned(ChunkCoords coords, Height[] heights, Material[] materials)
+    public static ChunkData FromOwned(Height[] heights, Material[] materials)
     {
         ValidateSizes(heights, materials);
-        return new Chunk(coords, heights, materials);
+        return new ChunkData(heights, materials);
     }
 
     /// <summary>
@@ -88,10 +102,10 @@ public class Chunk
     /// <param name="heights"></param>
     /// <param name="materials"></param>
     /// <returns>The created chunk.</returns>
-    public static Chunk FromSpan(ChunkCoords coords, ReadOnlySpan<Height> heights, ReadOnlySpan<Material> materials)
+    public static ChunkData FromSpan(ReadOnlySpan<Height> heights, ReadOnlySpan<Material> materials)
     {
         ValidateSizes(heights, materials);
-        return new Chunk(coords, heights.ToArray(), materials.ToArray());
+        return new ChunkData(heights.ToArray(), materials.ToArray());
     }
 
     /// <summary>
@@ -99,24 +113,19 @@ public class Chunk
     /// </summary>
     /// <param name="coords"></param>
     /// <returns>The created chunk.</returns>
-    public static Chunk Zeroed(ChunkCoords coords)
+    public static ChunkData Zero()
     {
-        return new Chunk(coords, new Height[GridLayout.ChunkTileCount], new Material[GridLayout.ChunkTileCount]);
+        return new ChunkData(new Height[GridLayout.ChunkTileCount], new Material[GridLayout.ChunkTileCount]);
     }
 
     private static void ValidateLocalCoords(int x, int y)
     {
         if (x is < 0 or >= GridLayout.ChunkSize)
-            throw new ArgumentOutOfRangeException(nameof(x), $"X coordinate must be in range [0, {GridLayout.ChunkSize})");
+            throw new ArgumentOutOfRangeException(nameof(x),
+                $"X coordinate must be in range [0, {GridLayout.ChunkSize})");
         if (y is < 0 or >= GridLayout.ChunkSize)
-            throw new ArgumentOutOfRangeException(nameof(y), $"Y coordinate must be in range [0, {GridLayout.ChunkSize})");
-    }
-
-    private void ValidateTileCoords(TileCoords coords)
-    {
-        var (local, chunk) = coords.ToLocalAndChunk();
-        if (chunk != Coords) throw new ArgumentException("Tile coordinates do not belong to this chunk", nameof(coords));
-        ValidateLocalCoords(local.X, local.Y);
+            throw new ArgumentOutOfRangeException(nameof(y),
+                $"Y coordinate must be in range [0, {GridLayout.ChunkSize})");
     }
 
     private static void ValidateSizes(ReadOnlySpan<Height> heights, ReadOnlySpan<Material> materials)
@@ -124,14 +133,9 @@ public class Chunk
         if (heights.Length != GridLayout.ChunkTileCount)
             throw new ArgumentException($"Heights span must be of length {GridLayout.ChunkTileCount}", nameof(heights));
         if (materials.Length != GridLayout.ChunkTileCount)
-            throw new ArgumentException($"Materials span must be of length {GridLayout.ChunkTileCount}", nameof(materials));
+            throw new ArgumentException($"Materials span must be of length {GridLayout.ChunkTileCount}",
+                nameof(materials));
     }
-    
-    private static int Linearize(int x, int y) => y * GridLayout.ChunkSize + x;
 
-    private static int Linearize(TileCoords coords)
-    {
-        var local = coords.ToLocal();
-        return Linearize(local.X, local.Y);
-    }
+    private static int Linearize(int x, int y) => y * GridLayout.ChunkSize + x;
 }

@@ -25,9 +25,14 @@ public readonly record struct ChunkCoords(int X, int Y)
 {
     public TileCoords ToTileCoords() => new(X * GridLayout.ChunkSize, Y * GridLayout.ChunkSize);
     public static implicit operator TileCoords(ChunkCoords cc) => cc.ToTileCoords();
-    public static implicit operator ChunkCoords(TileCoords tc) => new(tc.X / GridLayout.ChunkSize, tc.Y / GridLayout.ChunkSize);
+
+    public static implicit operator ChunkCoords(TileCoords tc) =>
+        new(tc.X / GridLayout.ChunkSize, tc.Y / GridLayout.ChunkSize);
+
     public static ChunkCoords operator +(ChunkCoords a, ChunkCoords b) => new(a.X + b.X, a.Y + b.Y);
     public static ChunkCoords operator -(ChunkCoords a, ChunkCoords b) => new(a.X - b.X, a.Y - b.Y);
+    public override string ToString() => $"{nameof(ChunkCoords)}({X}, {Y})";
+
     public (int, int) Unpack() => (X, Y);
 }
 
@@ -43,14 +48,15 @@ public readonly record struct TileCoords(int X, int Y)
     public static implicit operator TileCoords(ChunkCoords cc) => cc.ToTileCoords();
     public static TileCoords operator +(TileCoords a, TileCoords b) => new(a.X + b.X, a.Y + b.Y);
     public static TileCoords operator -(TileCoords a, TileCoords b) => new(a.X - b.X, a.Y - b.Y);
+    public override string ToString() => $"{nameof(TileCoords)}({X}, {Y})";
     public (int X, int Y) Unpack() => (X, Y);
-    
+
     /// <summary>
     /// Converts the global tile coordinates to local chunk coordinates, discarding the chunk offset.
     /// </summary>
     /// <returns></returns>
     public TileCoords ToLocal() => new(X % GridLayout.ChunkSize, Y % GridLayout.ChunkSize);
-    
+
     /// <summary>
     /// Separate the tile coordinates into local tile and chunk components.
     /// </summary>
@@ -58,10 +64,10 @@ public readonly record struct TileCoords(int X, int Y)
     public (TileCoords, ChunkCoords) ToLocalAndChunk()
     {
         var (x, y) = Unpack();
-        
+
         var (cx, lx) = Math.DivRem(x, GridLayout.ChunkSize);
         var (cy, ly) = Math.DivRem(y, GridLayout.ChunkSize);
-        
+
         return (new TileCoords(lx, ly), new ChunkCoords(cx, cy));
     }
 }

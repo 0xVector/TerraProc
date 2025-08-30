@@ -1,8 +1,8 @@
-namespace TerraProc.Core.Generation.Noise;
+namespace TerraProc.Core.Noise;
 
 public class PerlinNoise : INoiseProvider
 {
-    public double GetNoise(double x, double y)
+    public double Sample(double x, double y)
     {
         throw new NotImplementedException();
     }

@@ -4,5 +4,5 @@ namespace TerraProc.Core.Generation;
 
 public interface ITerrainGenerator
 {
-    public Chunk GetChunk(ChunkCoords coords);
+    public ChunkData Generate(ChunkCoords coords);
 }

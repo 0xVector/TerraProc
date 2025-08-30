@@ -1,8 +1,8 @@
-namespace TerraProc.Core.Generation.Noise;
+namespace TerraProc.Core.Noise;
 
 public class ValueNoise(int seed) : INoiseProvider
 {
-    public double GetNoise(double x, double y)
+    public double Sample(double x, double y)
     {
         var xi = (int)Math.Floor(x); // Obtains lattice integer point
         var yi = (int)Math.Floor(y);
