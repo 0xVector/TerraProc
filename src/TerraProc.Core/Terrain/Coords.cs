@@ -1,20 +1,4 @@
-namespace TerraProc.Core.Grid;
-
-/// <summary>
-/// Static class containing grid-related constants and utilities.
-/// </summary>
-public static class GridLayout
-{
-    /// <summary>
-    /// The size of each chunk in tiles.
-    /// </summary>
-    public const int ChunkSize = 64;
-
-    /// <summary>
-    /// The total number of tiles in a chunk (<see cref="ChunkSize"/>^2).
-    /// </summary>
-    public const int ChunkTileCount = ChunkSize * ChunkSize;
-}
+namespace TerraProc.Core.Terrain;
 
 /// <summary>
 /// Represents the coordinates of a chunk in the grid.
@@ -23,7 +7,7 @@ public static class GridLayout
 /// <param name="Y">The Y coordinate of the chunk.</param>
 public readonly record struct ChunkCoords(int X, int Y)
 {
-    public static implicit operator TileCoords(ChunkCoords cc) => cc.ToTileCoords(); // Implicit -> TileCoords
+    // public static implicit operator TileCoords(ChunkCoords cc) => cc.ToTileCoords(); // Implicit -> TileCoords
     public static implicit operator (int x, int y)(ChunkCoords cc) => (cc.X, cc.Y); // Implicit -> tuple
     public static explicit operator ChunkCoords((int x, int y) tuple) => new(tuple.x, tuple.y); // Explicit <- tuple
     public static ChunkCoords operator +(ChunkCoords a, ChunkCoords b) => new(a.X + b.X, a.Y + b.Y);
@@ -50,7 +34,7 @@ public readonly record struct ChunkCoords(int X, int Y)
 /// <param name="Y">The Y coordinate of the tile.</param>
 public readonly record struct TileCoords(int X, int Y)
 {
-    public static implicit operator ChunkCoords(TileCoords tc) => tc.ToChunkCoords(); // Implicit -> ChunkCoords
+    // public static implicit operator ChunkCoords(TileCoords tc) => tc.ToChunkCoords(); // Implicit -> ChunkCoords
     public static implicit operator (int x, int y)(TileCoords tc) => (tc.X, tc.Y); // Implicit -> tuple
     public static explicit operator TileCoords((int x, int y) tuple) => new(tuple.x, tuple.y); // Explicit <- tuple
     public static TileCoords operator +(TileCoords a, TileCoords b) => new(a.X + b.X, a.Y + b.Y);

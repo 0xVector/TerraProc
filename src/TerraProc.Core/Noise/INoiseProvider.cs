@@ -1,3 +1,5 @@
+using TerraProc.Core.Terrain;
+
 namespace TerraProc.Core.Noise;
 
 public interface INoiseProvider
@@ -14,4 +16,4 @@ public interface INoiseProvider
 /// <summary>
 /// A factory delegate for creating instances of INoiseProvider with a specified seed.
 /// </summary>
-public delegate INoiseProvider NoiseProviderFactory(int seed);
+public delegate INoiseProvider NoiseProviderFactory(Seed seed);

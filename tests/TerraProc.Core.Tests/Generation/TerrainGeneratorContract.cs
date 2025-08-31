@@ -1,5 +1,5 @@
 using TerraProc.Core.Generation;
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 using TerraProc.Core.Tests.TestDoubles;
 
 namespace TerraProc.Core.Tests.Generation;
@@ -12,7 +12,7 @@ public abstract class TerrainGeneratorContract
     public void Generate_Correct_Chunk()
     {
         var generator = Create((_, _) => 0);
-        var chunk = generator.Generate(new ChunkCoords(0, 0));
+        var chunk = generator.Generate((ChunkCoords)(0, 0));
         
         Assert.Equal(GridLayout.ChunkTileCount, chunk.Heights.Length);
         Assert.Equal(GridLayout.ChunkTileCount, chunk.Materials.Length);

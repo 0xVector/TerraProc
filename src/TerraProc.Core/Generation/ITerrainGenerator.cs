@@ -1,4 +1,4 @@
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 
 namespace TerraProc.Core.Generation;
 

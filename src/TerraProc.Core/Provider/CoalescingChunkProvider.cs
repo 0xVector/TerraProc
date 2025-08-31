@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 
 namespace TerraProc.Core.Provider;
 

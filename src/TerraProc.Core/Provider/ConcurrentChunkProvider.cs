@@ -1,5 +1,5 @@
 using TerraProc.Core.Generation;
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 
 namespace TerraProc.Core.Provider;
 

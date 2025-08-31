@@ -1,4 +1,4 @@
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 using TerraProc.Core.Provider;
 using TerraProc.Core.Tests.TestDoubles;
 

@@ -1,15 +1,4 @@
-namespace TerraProc.Core.Grid;
-
-using Height = ushort;
-
-/// <summary>
-/// Represents tile a material type.
-/// </summary>
-public enum Material
-{
-    Void = 0,
-    Default = 1,
-}
+namespace TerraProc.Core.Terrain;
 
 /// <summary>
 /// Represents a chunk in the grid, containing its coordinates and data.
@@ -67,13 +56,13 @@ public sealed class ChunkData
     {
         get
         {
-            var (x, y) = coords.ToLocal().Unpack();
+            var (x, y) = coords.ToLocal();
             ValidateLocalCoords(x, y);
             return _heights[Linearize(x, y)];
         }
         set
         {
-            var (x, y) = coords.ToLocal().Unpack();
+            var (x, y) = coords.ToLocal();
             ValidateLocalCoords(x, y);
             _heights[Linearize(x, y)] = value;
         }

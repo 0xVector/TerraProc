@@ -1,5 +1,5 @@
 using TerraProc.Core.Noise;
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 
 namespace TerraProc.Core.Generation;
 
@@ -8,24 +8,24 @@ namespace TerraProc.Core.Generation;
 /// </summary>
 /// <param name="noiseFactory">A factory function to create a noise provider given a seed.</param>
 /// <param name="seed">The main seed for the terrain generation.</param>
-public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, int seed) : ITerrainGenerator
+public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed) : ITerrainGenerator
 {
-    private const ushort Scale = 10;
+    private static readonly Height Scale = 10;
     private readonly INoiseProvider _noise = noiseFactory(seed);
     
     public ChunkData Generate(ChunkCoords coords)
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
 
-        var (globX, globY) = coords.Unpack();
+        var (globX, globY) = coords;
 
         for (var i = 0; i < GridLayout.ChunkTileCount; i++)
         {
             var tileX = globX + i % GridLayout.ChunkSize;
             var tileY = globY + i / GridLayout.ChunkSize;
             var n = _noise.Sample(tileX, tileY);
-            heights[i] = (ushort)(n * Scale);
+            heights[i] = (Height)(n * Scale);
             materials[i] = Material.Void;
         }
         

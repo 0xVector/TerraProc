@@ -1,6 +1,6 @@
-using TerraProc.Core.Grid;
+using TerraProc.Core.Terrain;
 
-namespace TerraProc.Core.Tests.Grid;
+namespace TerraProc.Core.Tests.Terrain;
 
 public class ChunkDataTests
 {
@@ -14,14 +14,14 @@ public class ChunkDataTests
     [Fact]
     public void FromOwned_NullMaterials_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         Assert.Throws<ArgumentException>(() => ChunkData.FromOwned(heights, null!));
     }
 
     [Fact]
     public void FromOwned_WrongHeightsLength_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount - 1];
+        var heights = new Height[GridLayout.ChunkTileCount - 1];
         var materials = new Material[GridLayout.ChunkTileCount];
         Assert.Throws<ArgumentException>(() => ChunkData.FromOwned(heights, materials));
     }
@@ -29,7 +29,7 @@ public class ChunkDataTests
     [Fact]
     public void FromOwned_WrongMaterialsLength_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount - 1];
         Assert.Throws<ArgumentException>(() => ChunkData.FromOwned(heights, materials));
     }
@@ -37,7 +37,7 @@ public class ChunkDataTests
     [Fact]
     public void FromOwned_ValidInputs_CreatesInstance()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
         
         var chunkData = ChunkData.FromOwned(heights, materials);
@@ -50,7 +50,7 @@ public class ChunkDataTests
     [Fact]
     public void FromOwned_ModifyingOriginalArrays_ReflectsInChunkData()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
         
         var chunkData = ChunkData.FromOwned(heights, materials);
@@ -71,14 +71,14 @@ public class ChunkDataTests
     [Fact]
     public void FromSpan_NullMaterials_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         Assert.Throws<ArgumentException>(() => ChunkData.FromSpan(heights, null!));
     }
 
     [Fact]
     public void FromSpan_WrongHeightsLength_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount - 1];
+        var heights = new Height[GridLayout.ChunkTileCount - 1];
         var materials = new Material[GridLayout.ChunkTileCount];
         Assert.Throws<ArgumentException>(() => ChunkData.FromSpan(heights, materials));
     }
@@ -86,7 +86,7 @@ public class ChunkDataTests
     [Fact]
     public void FromSpan_WrongMaterialsLength_Throws()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount - 1];
         Assert.Throws<ArgumentException>(() => ChunkData.FromSpan(heights, materials));
     }
@@ -94,7 +94,7 @@ public class ChunkDataTests
     [Fact]
     public void FromSpan_ValidInputs_CreatesInstance()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
         
         var chunkData = ChunkData.FromSpan(heights, materials);
@@ -107,7 +107,7 @@ public class ChunkDataTests
     [Fact]
     public void FromSpan_ModifyingOriginalArrays_DoesNotReflectInChunkData()
     {
-        var heights = new ushort[GridLayout.ChunkTileCount];
+        var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
 
         var chunkData = ChunkData.FromSpan(heights, materials);
