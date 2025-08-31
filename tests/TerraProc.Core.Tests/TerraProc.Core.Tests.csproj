@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TerraProc.Core\TerraProc.Core.csproj" />
+      <ProjectReference Include="..\..\TerraProc.Core\TerraProc.Core.csproj" />
     </ItemGroup>
 
 </Project>
