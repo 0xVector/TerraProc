@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Core", "TerraProc.Core\TerraProc.Core.csproj", "{4C91ACC9-9C38-4E06-9436-110E6A652770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Core", "src\TerraProc.Core\TerraProc.Core.csproj", "{0117FC25-A3A7-4839-9403-4D7EEFE57160}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Core.Tests", "tests\TerraProc.Core.Tests\TerraProc.Core.Tests.csproj", "{6CC852C6-0268-4B60-AAC6-4DF77EF1F4E6}"
 EndProject
@@ -10,10 +10,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C91ACC9-9C38-4E06-9436-110E6A652770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C91ACC9-9C38-4E06-9436-110E6A652770}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C91ACC9-9C38-4E06-9436-110E6A652770}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C91ACC9-9C38-4E06-9436-110E6A652770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0117FC25-A3A7-4839-9403-4D7EEFE57160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0117FC25-A3A7-4839-9403-4D7EEFE57160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0117FC25-A3A7-4839-9403-4D7EEFE57160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0117FC25-A3A7-4839-9403-4D7EEFE57160}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CC852C6-0268-4B60-AAC6-4DF77EF1F4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CC852C6-0268-4B60-AAC6-4DF77EF1F4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CC852C6-0268-4B60-AAC6-4DF77EF1F4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
