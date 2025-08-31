@@ -8,6 +8,7 @@ using Height = ushort;
 public enum Material
 {
     Void = 0,
+    Default = 1,
 }
 
 /// <summary>
