@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace TerraProc.Core.Terrain;
 
 /// <summary>
@@ -23,6 +25,17 @@ public sealed class ChunkData
         _heights = heights;
         _materials = materials;
     }
+    
+    /// <summary>
+    /// The number of tiles in the chunk (should be equal to <see cref="GridLayout.ChunkTileCount"/>).
+    /// </summary>
+    public int TileCount => _heights.Length;
+    
+    /// <summary>
+    /// The size of the chunk data in bytes in memory.
+    /// </summary>
+    /// <returns>Size in bytes.</returns>
+    public int ByteSize => Marshal.SizeOf<Height>() * _heights.Length + sizeof(Material) * _materials.Length;
 
     public ReadOnlySpan<Height> Heights => _heights;
     public ReadOnlyMemory<Height> HeightsMemory => _heights;
