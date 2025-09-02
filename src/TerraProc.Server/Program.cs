@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Options;
 using TerraProc.Core.Provider;
 using TerraProc.Server;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer(); // For OpenAPI
 builder.Services.AddSwaggerGen();
@@ -42,20 +44,28 @@ builder.WebHost.ConfigureKestrel(o =>
 {
     o.AddServerHeader = false;
     o.ListenAnyIP(builder.Configuration.GetValue("Server:Port", 5000),
-        lo => lo.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2);
+        lo =>
+        {
+            lo.UseHttps();
+            lo.Protocols = HttpProtocols.Http1AndHttp2;
+        });
 });
 
 var app = builder.Build();
 
 // Middleware
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseDefaultFiles(); // Serve wwwroot/index.html by default
 app.UseStaticFiles(); // Serve static files from wwwroot
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>();
+// Configure gRPC
+app.MapGrpcService<ChunksService>();
+if (app.Environment.IsDevelopment())
+    app.MapGrpcReflectionService();
+
+// Configure Rest API
 app.MapControllers();
 app.MapGet("/status", () => Results.Ok(new { status = "Server is running" }));
 

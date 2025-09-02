@@ -1,0 +1,18 @@
+syntax = "proto3";
+option csharp_namespace = "TerraProc.Grpc";
+package terraproc;
+
+// Service providing terrain data
+service Terrain {
+  rpc GetChunk(ChunkCoords) returns (Chunk);
+}
+
+// Represents the coordinates of a terrain chunk
+message ChunkCoords {int32 x = 1; int32 y = 2;}
+
+// Represents a chunk of terrain data
+message Chunk {
+  ChunkCoords coord = 1;
+  bytes heights = 2;
+  bytes materials = 3;
+}
