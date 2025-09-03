@@ -9,7 +9,7 @@ namespace TerraProc.Server.Services;
 /// <summary>
 /// Chunk gRPC service.
 /// </summary>
-public sealed class ChunksService(IChunkProvider provider) : Grpc.Terrain.TerrainBase
+public sealed class ChunkService(IChunkProvider provider) : Grpc.Terrain.TerrainBase
 {
     /// <summary>
     /// Get chunk data by coordinates.

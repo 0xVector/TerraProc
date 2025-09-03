@@ -61,7 +61,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Configure gRPC
-app.MapGrpcService<ChunksService>();
+app.MapGrpcService<ChunkService>();
 if (app.Environment.IsDevelopment())
     app.MapGrpcReflectionService();
 

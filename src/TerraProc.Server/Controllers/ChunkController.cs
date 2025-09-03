@@ -10,7 +10,7 @@ namespace TerraProc.Server.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/chunk")]
-public sealed class ChunksController(IChunkProvider provider) : ControllerBase
+public sealed class ChunkController(IChunkProvider provider) : ControllerBase
 {
     /// <summary>
     /// Get a chunk
