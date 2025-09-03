@@ -8,7 +8,7 @@ using TerraProc.Server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddGrpc();
+builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddGrpcReflection();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer(); // For OpenAPI

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using TerraProc.Core.Provider;
 using TerraProc.Core.Terrain;
@@ -8,7 +9,7 @@ namespace TerraProc.Server.Controllers;
 /// Basic chunk controller
 /// </summary>
 [ApiController]
-[Route("api/chunks")]
+[Route("api/chunk")]
 public sealed class ChunksController(IChunkProvider provider) : ControllerBase
 {
     /// <summary>
@@ -18,6 +19,7 @@ public sealed class ChunksController(IChunkProvider provider) : ControllerBase
     /// <param name="y">Y coordinate of the chunk</param>
     /// <param name="ct">Cancellation token</param>
     [HttpGet]
+    // [Produces("application/x-protobuf", "application/json")]
     public async Task<IActionResult> GetChunk(
         [FromQuery] int x,
         [FromQuery] int y,
@@ -25,16 +27,12 @@ public sealed class ChunksController(IChunkProvider provider) : ControllerBase
     {
         var chunk = await provider.GetAsync((ChunkCoords)(x, y), ct);
 
-        // TODO: something better than this
-        var heightsAsPrimitive = new ushort[chunk.Heights.Length];
-        foreach (var h in chunk.Heights) heightsAsPrimitive[h.Value] = h;
-
         return Ok(new
         {
             x, y,
             tileCount = chunk.TileCount,
             byteSize = chunk.ByteSize,
-            heights = heightsAsPrimitive,
+            heights = MemoryMarshal.AsBytes(chunk.Heights).ToArray(),
             materials = chunk.Materials.ToArray()
         });
     }

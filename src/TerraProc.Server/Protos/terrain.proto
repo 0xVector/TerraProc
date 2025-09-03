@@ -1,10 +1,15 @@
 syntax = "proto3";
 option csharp_namespace = "TerraProc.Grpc";
+import "google/api/annotations.proto";
 package terraproc;
 
 // Service providing terrain data
 service Terrain {
-  rpc GetChunk(ChunkCoords) returns (Chunk);
+  rpc GetChunk(ChunkCoords) returns (Chunk) {
+    option (google.api.http) = {
+      get: "/v1/chunk/{x}/{y}"
+    };
+  }
 }
 
 // Represents the coordinates of a terrain chunk
