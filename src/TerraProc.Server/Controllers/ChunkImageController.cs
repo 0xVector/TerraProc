@@ -15,6 +15,13 @@ namespace TerraProc.Server.Controllers;
 [ApiController]
 public sealed class ChunkImageController(IChunkProvider provider) : ControllerBase
 {
+    /// <summary>
+    /// View chunk as an image.
+    /// </summary>
+    /// <param name="x">X coordinate of the chunk.</param>
+    /// <param name="y">Y coordinate of the chunk.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns></returns>
     [HttpGet("/view/chunk/{x:int}/{y:int}")]
     [Produces("image/webp")]
     public async Task<IActionResult> GetChunkImage(int x, int y, CancellationToken ct = default)
