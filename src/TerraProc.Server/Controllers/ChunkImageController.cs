@@ -48,9 +48,13 @@ public sealed class ChunkImageController(IChunkProvider provider) : ControllerBa
         var c = GetColor(material);
         var relHeight = (double)height / GridLayout.MaxHeight;
         return new Rgba32(
-            (byte)(c.R * relHeight),
-            (byte)(c.R * relHeight),
-            (byte)(c.R * relHeight)
+            // (byte)(c.R * relHeight),
+            // (byte)(c.G * relHeight),
+            // (byte)(c.B * relHeight)
+            (byte)(c.R),
+            (byte)(c.G),
+            (byte)(c.B),
+            (byte)(relHeight * 255)
         );
     }
 
