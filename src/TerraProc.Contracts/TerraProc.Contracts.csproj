@@ -22,12 +22,12 @@
 
         <!--        For gRPC HTTP API (transcoding)-->
         <PackageReference Include="Google.Api.CommonProtos" Version="2.17.0" PrivateAssets="All"/>
-        <PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="9.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="9.0.8"/>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="Build">
         <Copy SourceFiles="$(TargetDir)TerraProc.Contracts.dll"
-              DestinationFolder="../TerraProc.Client/Assets/Plugins" />
+              DestinationFolder="../TerraProc.Client/Assets/Plugins"/>
     </Target>
 
 </Project>
