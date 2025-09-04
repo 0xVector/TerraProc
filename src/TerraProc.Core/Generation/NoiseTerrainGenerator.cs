@@ -4,10 +4,10 @@ using TerraProc.Core.Terrain;
 namespace TerraProc.Core.Generation;
 
 /// <summary>
-/// A basic terrain generator.
+/// Noise-based terrain generator that samples a noise function, with various octave and band transformations.
 /// </summary>
-/// <param name="noiseFactory">A factory function to create a noise provider given a seed.</param>
-/// <param name="seed">The main seed for the terrain generation.</param>
+/// <param name="noiseFactory">Factory function to create a noise provider given a seed.</param>
+/// <param name="seed">Main seed for the terrain generation.</param>
 public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed) : ITerrainGenerator
 {
     private readonly INoiseProvider _noise = noiseFactory(seed);
