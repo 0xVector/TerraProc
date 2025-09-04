@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Core.IntegrationT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Server", "src\TerraProc.Server\TerraProc.Server.csproj", "{B19CFC22-DCC0-4841-9876-F660E27F45F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraProc.Contracts", "src\TerraProc.Contracts\TerraProc.Contracts.csproj", "{1E4BB29A-73EA-462B-8406-77FAEE6F51E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B19CFC22-DCC0-4841-9876-F660E27F45F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19CFC22-DCC0-4841-9876-F660E27F45F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19CFC22-DCC0-4841-9876-F660E27F45F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E4BB29A-73EA-462B-8406-77FAEE6F51E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E4BB29A-73EA-462B-8406-77FAEE6F51E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E4BB29A-73EA-462B-8406-77FAEE6F51E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E4BB29A-73EA-462B-8406-77FAEE6F51E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
