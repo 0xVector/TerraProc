@@ -13,6 +13,16 @@ public readonly record struct Chunk(ChunkCoords Coords, ChunkData Data)
 }
 
 /// <summary>
+/// Represents a single tile in the grid, containing its height and material.
+/// </summary>
+/// <param name="HeightValue">Height of the tile.</param>
+/// <param name="MaterialValue">Material of the tile.</param>
+public readonly record struct Tile(Height HeightValue, Material MaterialValue)
+{
+    public override string ToString() => $"{nameof(Tile)}(Height: {HeightValue}, Material: {MaterialValue})";
+}
+
+/// <summary>
 /// Represents a chunk of the grid, containing heights and materials for each tile.
 /// </summary>
 public sealed class ChunkData
@@ -25,12 +35,12 @@ public sealed class ChunkData
         _heights = heights;
         _materials = materials;
     }
-    
+
     /// <summary>
     /// The number of tiles in the chunk (should be equal to <see cref="GridLayout.ChunkTileCount"/>).
     /// </summary>
     public int TileCount => _heights.Length;
-    
+
     /// <summary>
     /// The size of the chunk data in bytes in memory.
     /// </summary>
@@ -43,41 +53,40 @@ public sealed class ChunkData
     public ReadOnlyMemory<Material> MaterialsMemory => _materials;
 
     /// <summary>
-    /// Get the height by the <b>local</b> coordinates within the chunk.
+    /// Get the <see cref="Tile"/> by the <b>local</b> coordinates within the chunk.
     /// </summary>
-    /// <param name="x">The local X coordinate within the chunk (0 to ChunkSize-1)</param>
-    /// <param name="y">The local Y coordinate within the chunk (0 to ChunkSize-1)</param>
-    public Height this[int x, int y]
+    /// <param name="x">The local X coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
+    /// <param name="y">The local Y coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
+    public Tile this[int x, int y]
     {
         get
         {
             ValidateLocalCoords(x, y);
-            return _heights[Linearize(x, y)];
+            return new Tile(_heights[Linearize(x, y)], _materials[Linearize(x, y)]);
         }
         set
         {
             ValidateLocalCoords(x, y);
-            _heights[Linearize(x, y)] = value;
+            _heights[Linearize(x, y)] = value.HeightValue;
+            _materials[Linearize(x, y)] = value.MaterialValue;
         }
     }
-
+    
     /// <summary>
-    /// Get the height by the <b>global</b> tile coordinates.
+    /// Get the <see cref="Tile"/> by the <b>global</b> tile coordinates.
     /// </summary>
     /// <param name="coords">The global tile coordinates.</param>
-    public Height this[TileCoords coords]
+    public Tile this[TileCoords coords]
     {
         get
         {
             var (x, y) = coords.ToLocal();
-            ValidateLocalCoords(x, y);
-            return _heights[Linearize(x, y)];
+            return this[x, y];
         }
         set
         {
             var (x, y) = coords.ToLocal();
-            ValidateLocalCoords(x, y);
-            _heights[Linearize(x, y)] = value;
+            this[x, y] = value;
         }
     }
 
@@ -86,7 +95,6 @@ public sealed class ChunkData
     /// The caller promises that they will not be modified after being passed to this method.
     /// The arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
     /// </summary>
-    /// <param name="coords"></param>
     /// <param name="heights"></param>
     /// <param name="materials"></param>
     /// <returns>The created chunk.</returns>
@@ -101,7 +109,6 @@ public sealed class ChunkData
     /// The spans will be copied into new arrays.
     /// The arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
     /// </summary>
-    /// <param name="coords"></param>
     /// <param name="heights"></param>
     /// <param name="materials"></param>
     /// <returns>The created chunk.</returns>
@@ -114,7 +121,6 @@ public sealed class ChunkData
     /// <summary>
     ///  Create a chunk with all heights set to zero and all materials set to <see cref="Material.Void"/>.
     /// </summary>
-    /// <param name="coords"></param>
     /// <returns>The created chunk.</returns>
     public static ChunkData Zero()
     {

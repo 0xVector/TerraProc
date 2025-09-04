@@ -45,6 +45,7 @@ public class ChunkDataTests
         Assert.NotNull(chunkData);
         Assert.Equal(heights, chunkData.Heights.ToArray());
         Assert.Equal(materials, chunkData.Materials.ToArray());
+        Assert.Equal(new Tile(heights[0], materials[0]), chunkData[0, 0]);
     }
 
     [Fact]
@@ -59,6 +60,7 @@ public class ChunkDataTests
         
         Assert.Equal(5, chunkData.Heights[0]);
         Assert.Equal(Material.Default, chunkData.Materials[5]);
+        Assert.Equal(new Tile(5, materials[0]), chunkData[0, 0]);
     }
 
     [Fact]
@@ -102,6 +104,7 @@ public class ChunkDataTests
         Assert.NotNull(chunkData);
         Assert.Equal(heights, chunkData.Heights.ToArray());
         Assert.Equal(materials, chunkData.Materials.ToArray());
+        Assert.Equal(new Tile(heights[0], materials[0]), chunkData[0, 0]);
     }
 
     [Fact]
@@ -116,5 +119,6 @@ public class ChunkDataTests
 
         Assert.NotEqual(5, chunkData.Heights[0]);
         Assert.NotEqual(Material.Default, chunkData.Materials[5]);
+        Assert.Equal(new Tile(0, materials[0]), chunkData[0, 0]);
     }
 }
