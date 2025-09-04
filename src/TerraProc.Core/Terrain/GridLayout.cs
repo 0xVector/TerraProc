@@ -14,4 +14,9 @@ public static class GridLayout
     /// The total number of tiles in a chunk (<see cref="ChunkSize"/>^2).
     /// </summary>
     public const int ChunkTileCount = ChunkSize * ChunkSize;
+
+    /// <summary>
+    /// The maximum height value for terrain.
+    /// </summary>
+    public const int MaxHeight = 1000;
 }

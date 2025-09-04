@@ -6,10 +6,9 @@ using TerraProc.Core.Terrain;
 namespace TerraProc.Server.Controllers;
 
 /// <summary>
-/// Basic chunk controller
+/// Controller for retrieving chunk data.
 /// </summary>
 [ApiController]
-[Route("api/chunk")]
 public sealed class ChunkController(IChunkProvider provider) : ControllerBase
 {
     /// <summary>
@@ -18,12 +17,9 @@ public sealed class ChunkController(IChunkProvider provider) : ControllerBase
     /// <param name="x">X coordinate of the chunk</param>
     /// <param name="y">Y coordinate of the chunk</param>
     /// <param name="ct">Cancellation token</param>
-    [HttpGet]
-    // [Produces("application/x-protobuf", "application/json")]
-    public async Task<IActionResult> GetChunk(
-        [FromQuery] int x,
-        [FromQuery] int y,
-        CancellationToken ct = default)
+    [HttpGet("/api/chunk/{x:int}/{y:int}")]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetChunk(int x, int y, CancellationToken ct = default)
     {
         var chunk = await provider.GetAsync((ChunkCoords)(x, y), ct);
 

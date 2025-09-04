@@ -10,7 +10,6 @@ namespace TerraProc.Core.Generation;
 /// <param name="seed">The main seed for the terrain generation.</param>
 public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed) : ITerrainGenerator
 {
-    private static readonly Height Scale = 10;
     private readonly INoiseProvider _noise = noiseFactory(seed);
     
     public ChunkData Generate(ChunkCoords coords)
@@ -25,8 +24,8 @@ public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed)
             var tileX = globX + i % GridLayout.ChunkSize;
             var tileY = globY + i / GridLayout.ChunkSize;
             var n = _noise.Sample(tileX, tileY);
-            heights[i] = (Height)(n * Scale);
-            materials[i] = Material.Void;
+            heights[i] = (Height)(n * GridLayout.MaxHeight);
+            materials[i] = Material.Default;
         }
         
         return ChunkData.FromOwned(heights, materials);
