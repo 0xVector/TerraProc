@@ -6,6 +6,15 @@ namespace TerraProc.Core.Noise;
 public static class NoiseProviderExtensions
 
 {
+    /// <summary>
+    /// Sample the noise provider at a specific frequency and amplitude.
+    /// </summary>
+    /// <param name="provider">Noise provider.</param>
+    /// <param name="x">X coordinate.</param>
+    /// <param name="y">Y coordinate.</param>
+    /// <param name="freq">Frequency multiplier.</param>
+    /// <param name="amp">Amplitude multiplier.</param>
+    /// <returns>Noise value at the specified frequency and amplitude.</returns>
     public static double SampleBand(this INoiseProvider provider, double x, double y, double freq, double amp)
         => provider.Sample(x * freq, y * freq) * amp;
 
