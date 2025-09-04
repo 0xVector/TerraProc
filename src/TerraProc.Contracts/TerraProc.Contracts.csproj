@@ -8,13 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos/terrain.proto" GrpcServices="Server"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Protobuf Include="Protos\terrain.proto">
-            <Generator>MSBuild:Compile</Generator>
-        </Protobuf>
+        <Protobuf Include="Protos/terrain.proto" ProtoRoot="Protos" GrpcServices="Server,Client"/>
     </ItemGroup>
 
     <ItemGroup>
