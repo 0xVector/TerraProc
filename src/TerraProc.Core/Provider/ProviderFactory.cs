@@ -38,7 +38,7 @@ public static class ProviderFactory
     /// <returns>Configured chunk provider.</returns>
     public static IChunkProvider CreateProvider(ProviderConfig config)
     {
-        INoiseProvider NoiseFactory(Seed s) => new ValueNoise(s);
+        INoiseProvider NoiseFactory(Seed s) => new PerlinNoise(s);
         var generator = new NoiseTerrainGenerator(NoiseFactory, config.Seed);
         IChunkProvider provider = new ConcurrentChunkProvider(generator, config.MaxThreads);
         if (config.UseCoalescing)

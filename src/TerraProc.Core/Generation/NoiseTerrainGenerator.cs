@@ -11,23 +11,24 @@ namespace TerraProc.Core.Generation;
 public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed) : ITerrainGenerator
 {
     private readonly INoiseProvider _noise = noiseFactory(seed);
-    
+
     public ChunkData Generate(ChunkCoords coords)
     {
         var heights = new Height[GridLayout.ChunkTileCount];
         var materials = new Material[GridLayout.ChunkTileCount];
 
-        var (globX, globY) = coords;
+        var (globX, globY) = coords.ToTileCoords();
 
         for (var i = 0; i < GridLayout.ChunkTileCount; i++)
         {
-            var tileX = globX + i % GridLayout.ChunkSize;
-            var tileY = globY + i / GridLayout.ChunkSize;
+            var (yOff, xOff) = Math.DivRem(i, GridLayout.ChunkSize); // TODO: add (de)linearize public API 
+            var tileX = globX + xOff + .5; // Center of tile
+            var tileY = globY + yOff + .5;
             var n = _noise.Sample(tileX, tileY);
             heights[i] = (Height)(n * GridLayout.MaxHeight);
             materials[i] = Material.Default;
         }
-        
+
         return ChunkData.FromOwned(heights, materials);
     }
 }

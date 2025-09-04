@@ -11,7 +11,7 @@ public class PerlinNoise(Seed seed) : INoiseProvider
     public double Sample(double x, double y)
     {
         // Integer lattice coords
-        var (x0, y0) = ((int)x, (int)y);
+        var (x0, y0) = ((int)Math.Floor(x), (int)Math.Floor(y));
         var (x1, y1) = (x0 + 1, y0 + 1);
 
         // Coords within unit cube, faded
@@ -25,10 +25,10 @@ public class PerlinNoise(Seed seed) : INoiseProvider
         var g3 = GradientVec(x1, y1);
 
         // Distance vectors
-        var d0 = (xf - x0, yf - y0);
-        var d1 = (xf - x1, yf - y0);
-        var d2 = (xf - x0, yf - y1);
-        var d3 = (xf - x1, yf - y1);
+        var d0 = (xf, yf);
+        var d1 = (xf - 1, yf);
+        var d2 = (xf, yf - 1);
+        var d3 = (xf - 1, yf - 1);
 
         // Result influences (dot products)
         var i0 = g0.Item1 * d0.Item1 + g0.Item2 * d0.Item2;
@@ -43,15 +43,17 @@ public class PerlinNoise(Seed seed) : INoiseProvider
 
         return (a3 + 1) / 2; // Normalize to [0, 1]
     }
-    
+
     // Hash function to get a pseudo-random value based on lattice coordinates, using the seed
     uint Hash(int x, int y)
     {
         ulong h = seed;
         h ^= (uint)x * 0x9E3779B185EBCA87UL;
         h ^= (uint)y * 0xC2B2AE3D27D4EB4FUL;
-        h ^= h >> 33; h *= 0xff51afd7ed558ccdUL;
-        h ^= h >> 33; h *= 0xc4ceb9fe1a85ec53UL;
+        h ^= h >> 33;
+        h *= 0xff51afd7ed558ccdUL;
+        h ^= h >> 33;
+        h *= 0xc4ceb9fe1a85ec53UL;
         h ^= h >> 33;
         return (uint)h;
     }
