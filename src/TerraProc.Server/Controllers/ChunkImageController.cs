@@ -30,7 +30,8 @@ public sealed class ChunkImageController(IChunkProvider provider) : ControllerBa
         Response.Headers.CacheControl = "public,max-age=1000";
         return File(RenderChunk(chunk), "image/webp");
     }
-
+    
+    // TODO: refactor to something separate
     private byte[] RenderChunk(ChunkData chunk)
     {
         using var img = new Image<Rgba32>(GridLayout.ChunkSize, GridLayout.ChunkSize);
@@ -70,6 +71,8 @@ public sealed class ChunkImageController(IChunkProvider provider) : ControllerBa
         {
             Material.Void => new Rgba32(0, 0, 0),
             Material.Default => new Rgba32(35, 35, 35),
+            Material.Stone => new Rgba32(75, 75, 75),
+            Material.Grass => new Rgba32(30, 220, 80),
             _ => new Rgba32(20, 20, 20),
         };
 }

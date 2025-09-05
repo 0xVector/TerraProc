@@ -24,11 +24,21 @@ public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed)
             var (yOff, xOff) = Math.DivRem(i, GridLayout.ChunkSize); // TODO: add (de)linearize public API 
             var tileX = globX + xOff + .5; // Center of tile
             var tileY = globY + yOff + .5;
-            var n = _noise.Sample(tileX, tileY);
+            var n = _noise.SampleOctaves(tileX, tileY, 5, .5);
             heights[i] = (Height)(n * GridLayout.MaxHeight);
-            materials[i] = Material.Default;
+            materials[i] = GetMaterial(n);
         }
 
         return ChunkData.FromOwned(heights, materials);
+    }
+    
+    private Material GetMaterial(double n)
+    {
+        return n switch
+        {
+            < .5 => Material.Stone,
+            < 1 => Material.Grass,
+            _ => Material.Default
+        };
     }
 }

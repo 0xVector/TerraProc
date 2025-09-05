@@ -20,6 +20,8 @@ public enum Material : byte
 {
     Void = 0,
     Default = 1,
+    Stone = 2,
+    Grass = 3,
 }
 
 /// <summary>
