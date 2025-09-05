@@ -47,9 +47,9 @@ namespace GrpcClient
         /// </summary>
         public void Dispose()
         {
-            // _handler?.Dispose();
-            // _httpClient?.Dispose();
-            // _channel?.Dispose();
+            _handler?.Dispose();
+            _httpClient?.Dispose();
+            _channel?.Dispose();
         }
     }
 }

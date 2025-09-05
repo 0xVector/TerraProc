@@ -464,6 +464,7 @@ MonoBehaviour:
   serverUrl: http://localhost:5000
   x: 0
   y: 0
+  chunkLitMaterial: {fileID: 2100000, guid: 9841fad73d93d6ee39abce373f06c9ab, type: 2}
 --- !u!4 &1936613660
 Transform:
   m_ObjectHideFlags: 0
