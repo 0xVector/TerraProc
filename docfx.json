@@ -1,0 +1,14 @@
+{
+  "metadata": [{
+    "src": [{ "files": ["src/**/*.csproj"], "exclude": ["**/bin/**","**/obj/**", "src/Terraproc.Client/**"] }],
+    "dest": "api"
+    
+  }],
+  "build": {
+    "content": [
+      { "files": ["api/**.yml","api/index.md"] },
+      { "files": ["index.md", "toc.yml"] }
+    ],
+    "dest": "_site"
+  }
+}
