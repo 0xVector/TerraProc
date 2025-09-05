@@ -12,6 +12,7 @@ namespace DefaultNamespace
         [SerializeField] private string serverUrl = "http://localhost:5000";
         [SerializeField] private Vector2[] chunkCoords;
         [SerializeField] private Material chunkLitMaterial;
+        [SerializeField] private float heightScale = .004f;
         private ChunkServiceClient _client;
 
         private void Awake()
@@ -47,7 +48,7 @@ namespace DefaultNamespace
                 var go = new GameObject($"Chunk({x},{y})");
                 var mf = go.AddComponent<MeshFilter>();
                 var mr = go.AddComponent<MeshRenderer>();
-                mf.sharedMesh = ChunkRenderer.Render(heights, materials, size, .01f);
+                mf.sharedMesh = ChunkRenderer.Render(heights, materials, size, heightScale);
                 mr.sharedMaterial = chunkLitMaterial;
             }
             catch (Grpc.Core.RpcException e)
