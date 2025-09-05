@@ -13,7 +13,7 @@ namespace Renderer
             var vertices = new Vector3[n]; // Geometry
             var uvs = new Vector2[n]; // Texture coordinates (not needed for now)
             var triangles = new int[(size - 1) * (size - 1) * 6]; // Triangle faces
-            var colors = new Color32[n]; // Vertex colors based on material
+            var colors = new Color[n]; // Vertex colors based on material
 
             for (var i = 0; i < n; i++)
             {
@@ -45,7 +45,7 @@ namespace Renderer
             mesh.SetVertices(vertices);
             mesh.SetUVs(0, uvs);
             mesh.SetTriangles(triangles, 0);
-            mesh.SetColors(colors);
+            mesh.colors = colors;
 
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
@@ -58,7 +58,9 @@ namespace Renderer
             return material switch
             {
                 0 => new Color32(0, 0, 0, 255),
-                1 => new Color32(50, 50, 50, 255),
+                1 => new Color32(35, 35, 35, 255),
+                2 => new Color32(75, 75, 75, 255),
+                3 => new Color32(30, 220, 80, 255),
                 _ => default
             };
         }
