@@ -43,7 +43,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.WebHost.ConfigureKestrel(o =>
 {
     o.AddServerHeader = false;
-    o.ListenAnyIP(builder.Configuration.GetValue("Server:Port", 5000),
+    o.ListenAnyIP(builder.Configuration.GetValue("Server:Port", 5000), // gRPC h2c
+        lo => lo.Protocols = HttpProtocols.Http2);
+
+    o.ListenAnyIP(builder.Configuration.GetValue("Server:PortHttps", 5001),
         lo =>
         {
             lo.UseHttps();
