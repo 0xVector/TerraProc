@@ -13,6 +13,7 @@ public class SimpleNoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed
 {
     private readonly INoiseProvider _noise = noiseFactory(seed);
 
+    /// <inheritdoc />
     public ChunkData Generate(ChunkCoords coords)
     {
         var heights = new Height[GridLayout.ChunkTileCount];

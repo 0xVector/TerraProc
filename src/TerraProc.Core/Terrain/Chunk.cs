@@ -5,10 +5,14 @@ namespace TerraProc.Core.Terrain;
 /// <summary>
 /// Represents a chunk in the grid, containing its coordinates and data.
 /// </summary>
-/// <param name="Coords">The coordinates of the chunk.</param>
-/// <param name="Data">The data of the chunk.</param>
+/// <param name="Coords">Coordinates of the chunk.</param>
+/// <param name="Data">Data of the chunk.</param>
 public readonly record struct Chunk(ChunkCoords Coords, ChunkData Data)
 {
+    /// <summary>
+    /// String representation of the chunk.
+    /// </summary>
+    /// <returns>String in the format "Chunk((X, Y), Data)".</returns>
     public override string ToString() => $"{nameof(Chunk)}({Coords}, {Data})";
 }
 
@@ -19,6 +23,10 @@ public readonly record struct Chunk(ChunkCoords Coords, ChunkData Data)
 /// <param name="MaterialValue">Material of the tile.</param>
 public readonly record struct Tile(Height HeightValue, Material MaterialValue)
 {
+    /// <summary>
+    /// String representation of the tile.
+    /// </summary>
+    /// <returns>String in the format "Tile(Height: height, Material: material)".</returns>
     public override string ToString() => $"{nameof(Tile)}(Height: {HeightValue}, Material: {MaterialValue})";
 }
 
@@ -37,26 +45,41 @@ public sealed class ChunkData
     }
 
     /// <summary>
-    /// The number of tiles in the chunk (should be equal to <see cref="GridLayout.ChunkTileCount"/>).
+    /// Number of tiles in the chunk (should be equal to <see cref="GridLayout.ChunkTileCount"/>).
     /// </summary>
     public int TileCount => _heights.Length;
 
     /// <summary>
-    /// The size of the chunk data in bytes in memory.
+    /// Size of the chunk data in bytes in memory.
     /// </summary>
     /// <returns>Size in bytes.</returns>
     public int ByteSize => Marshal.SizeOf<Height>() * _heights.Length + sizeof(Material) * _materials.Length;
 
+    /// <summary>
+    /// Read-only span of heights in the chunk.
+    /// </summary>
     public ReadOnlySpan<Height> Heights => _heights;
+    
+    /// <summary>
+    /// Read-only memory of heights in the chunk.
+    /// </summary>
     public ReadOnlyMemory<Height> HeightsMemory => _heights;
+    
+    /// <summary>
+    /// Read-only span of materials in the chunk.
+    /// </summary>
     public ReadOnlySpan<Material> Materials => _materials;
+    
+    /// <summary>
+    /// Read-only memory of materials in the chunk.
+    /// </summary>
     public ReadOnlyMemory<Material> MaterialsMemory => _materials;
 
     /// <summary>
     /// Get the <see cref="Tile"/> by the <b>local</b> coordinates within the chunk.
     /// </summary>
-    /// <param name="x">The local X coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
-    /// <param name="y">The local Y coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
+    /// <param name="x">Local X coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
+    /// <param name="y">Local Y coordinate within the chunk (0 to <see cref="GridLayout.ChunkSize"/>-1)</param>
     public Tile this[int x, int y]
     {
         get
@@ -75,7 +98,7 @@ public sealed class ChunkData
     /// <summary>
     /// Get the <see cref="Tile"/> by the <b>global</b> tile coordinates.
     /// </summary>
-    /// <param name="coords">The global tile coordinates.</param>
+    /// <param name="coords">Global tile coordinates.</param>
     public Tile this[TileCoords coords]
     {
         get
@@ -92,12 +115,12 @@ public sealed class ChunkData
 
     /// <summary>
     /// Create a chunk from owned arrays of heights and materials.
-    /// The caller promises that they will not be modified after being passed to this method.
-    /// The arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
+    /// Caller promises that they will not be modified after being passed to this method.
+    /// Arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
     /// </summary>
     /// <param name="heights"></param>
     /// <param name="materials"></param>
-    /// <returns>The created chunk.</returns>
+    /// <returns>Created chunk.</returns>
     public static ChunkData FromOwned(Height[] heights, Material[] materials)
     {
         ValidateSizes(heights, materials);
@@ -106,12 +129,12 @@ public sealed class ChunkData
 
     /// <summary>
     /// Create a chunk from spans of heights and materials.
-    /// The spans will be copied into new arrays.
-    /// The arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
+    /// Spans will be copied into new arrays.
+    /// Arrays must be of length <see cref="GridLayout.ChunkTileCount"/>.
     /// </summary>
     /// <param name="heights"></param>
     /// <param name="materials"></param>
-    /// <returns>The created chunk.</returns>
+    /// <returns>Created chunk.</returns>
     public static ChunkData FromSpan(ReadOnlySpan<Height> heights, ReadOnlySpan<Material> materials)
     {
         ValidateSizes(heights, materials);
@@ -121,7 +144,7 @@ public sealed class ChunkData
     /// <summary>
     ///  Create a chunk with all heights set to zero and all materials set to <see cref="Material.Void"/>.
     /// </summary>
-    /// <returns>The created chunk.</returns>
+    /// <returns>Created chunk.</returns>
     public static ChunkData Zero()
     {
         return new ChunkData(new Height[GridLayout.ChunkTileCount], new Material[GridLayout.ChunkTileCount]);

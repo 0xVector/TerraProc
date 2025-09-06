@@ -12,6 +12,7 @@ public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed)
 {
     private readonly INoiseProvider _noise = noiseFactory(seed);
 
+    /// <inheritdoc />
     public ChunkData Generate(ChunkCoords coords)
     {
         var heights = new Height[GridLayout.ChunkTileCount];
@@ -32,7 +33,7 @@ public class NoiseTerrainGenerator(NoiseProviderFactory noiseFactory, Seed seed)
         return ChunkData.FromOwned(heights, materials);
     }
     
-    private Material GetMaterial(double n)
+    private static Material GetMaterial(double n)
     {
         return n switch
         {

@@ -5,9 +5,10 @@ namespace TerraProc.Core.Noise;
 /// <summary>
 /// Perlin noise implementation.
 /// </summary>
-/// <param name="seed">The seed for the noise generation.</param>
+ /// <param name="seed">Seed for the noise generation.</param>
 public class PerlinNoise(Seed seed) : INoiseProvider
 {
+    /// <inheritdoc />
     public double Sample(double x, double y)
     {
         // Integer lattice coords

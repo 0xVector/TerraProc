@@ -3,21 +3,24 @@ using TerraProc.Core.Terrain;
 namespace TerraProc.Core.Noise;
 
 /// <summary>
-/// A simple value noise implementation that provides consistent pseudo-random values based on input coordinates and a seed.
+/// Simple value noise implementation that provides consistent pseudo-random values based on input coordinates and a seed.
 /// </summary>
-/// <param name="seed">The seed for the noise generation.</param>
+/// <param name="seed">Seed for the noise generation.</param>
 public class ValueNoise(Seed seed) : INoiseProvider
 {
+    /// <summary>
+    /// Sample the value noise at the given coordinates.
+    /// </summary>
+    /// <param name="x">X coordinate.</param>
+    /// <param name="y">Y coordinate.</param>
+    /// <returns>Noise value in the range [0, 1).</returns>
     public double Sample(double x, double y)
     {
         return Hash(x, y);
-        var xi = (int)Math.Floor(x); // Obtains lattice integer point
-        var yi = (int)Math.Floor(y);
-        long h = (xi * 374761393) ^ (yi * 668265263) ^ seed; // Simple hash
-        return (h & 0x7fffffff) / (double)int.MaxValue; // Clip sign bit, convert to [0, 1) range
     }
     
-    double Hash(double x, double y)
+    // Just the hash function used in PerlinNoise implementation adopted for doubles
+    private double Hash(double x, double y)
     {
         ulong h = seed;
         h ^= (uint)x * 0x9E3779B185EBCA87UL;
